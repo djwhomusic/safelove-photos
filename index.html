@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeLove - Santiago</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        /* Header - mantener fondo blanco */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f3f4f6;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #111827;
+            text-decoration: none;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            cursor: pointer;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links a:hover {
+            color: #111827;
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            color: #111827;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: -0.01em;
+            outline: none;
+            focus-visible: ring-2 ring-offset-2;
+        }
+
+        .btn-primary {
+            background: #111827;
+            color: white;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary:hover {
+            background: #1f2937;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-success {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 70px;
+            padding: 1rem 0;
+            background: #000000;
+        }
+
+        /* Page sections */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Hero Section con carrusel de fondo intenso - REDUCIDO A LA MITAD */
+        .hero {
+            text-align: center;
+            padding: 0.5rem 0;
+            background: #111111;
+            border-radius: 0;
+            margin: 2rem 0;
+            box-shadow: none;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 68px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Carrusel de fondo automático e intenso */
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 500%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            animation: heroSlide 12s linear infinite;
+        }
+
+        .hero-carousel-slide {
+            flex: 0 0 auto;
+            height: 100%;
+            width: 200px;
+            margin: 0 5px;
+            border-radius: 0;
+            overflow: hidden;
+            opacity: 0.1;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0;
+        }
+
+        @keyframes heroSlide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-20%);
+            }
+        }
+
+        .hero-carousel-slide img {
+            animation: heroZoom 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg, 
+                rgba(0, 0, 0, 0.4) 0%, 
+                rgba(0, 0, 0, 0.2) 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(0, 0, 0, 0.2) 70%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            padding: 1rem;
+        }
+
+        .hero-carousel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent 20%,
+                rgba(255, 255, 255, 0.1) 21%,
+                rgba(255, 255, 255, 0.1) 22%,
+                transparent 23%
+            );
+            z-index: 10;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Stories Section */
+        .stories-section {
+            background: #111111;
+            padding: 1.5rem;
+            border-radius: 0;
+            margin: 2rem 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .stories-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .stories-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .story-item {
+            flex-shrink: 0;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .story-item:hover {
+            transform: scale(1.05);
+        }
+
+        .story-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6b7280, #374151);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            position: relative;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .story-circle.has-story {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            border: none;
+        }
+
+        .story-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #6b7280;
+            font-weight: 700;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            border: none;
+        }
+
+        .story-name {
+            font-size: 0.8125rem;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #ffffff;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .add-story {
+            background: #333333;
+            border: none;
+        }
+
+        .add-story .story-avatar {
+            background: transparent;
+            color: #9ca3af;
+            border: none;
+        }
+
+        /* Activity Banner - NUEVO */
+        .activity-banner {
+            background: #111111;
+            padding: 1.5rem;
+            border-radius: 0;
+            margin: 1rem 0;
+            box-shadow: none;
+            border: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .activity-banner h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .activity-carousel {
+            display: flex;
+            gap: 0.5rem;
+            animation: activitySlide 20s linear infinite;
+        }
+
+        .activity-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            background: #222222;
+            padding: 0.75rem 1rem;
+            border-radius: 0;
+            gap: 0.75rem;
+            min-width: 280px;
+            border: 1px solid #333333;
+        }
+
+        .activity-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .activity-text .main-text {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-text .time-text {
+            color: #888888;
+            font-size: 0.75rem;
+        }
+
+        @keyframes activitySlide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Search Section */
+        .search-section {
+            background: #111111;
+            padding: 2rem;
+            border-radius: 0;
+            margin: 2rem 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            background: #222222;
+            color: #ffffff;
+            min-width: 200px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #0070ba;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            background: #222222;
+            color: #ffffff;
+            min-width: 150px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #0070ba;
+        }
+
+        /* Cards Grid - RESPONSIVE POR CATEGORIA */
+        .cards-grid {
+            display: grid;
+            gap: 2px;
+            margin: 3rem 0;
+            background: #333333;
+            padding: 2px;
+            border-radius: 0;
+        }
+
+        /* VIP - 4 por línea en desktop, 2 en móvil */
+        .cards-grid.vip-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* Gold - 8 por línea en desktop, 4 en móvil */
+        .cards-grid.gold-grid {
+            grid-template-columns: repeat(8, 1fr);
+        }
+
+        /* Silver - 10 por línea en desktop, 5 en móvil */
+        .cards-grid.silver-grid {
+            grid-template-columns: repeat(10, 1fr);
+        }
+
+        .card {
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: none;
+            border: none;
+            position: relative;
+            aspect-ratio: 1/1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px -5px rgba(255, 255, 255, 0.15);
+            z-index: 10;
+        }
+
+        .card.vip {
+            border: none;
+        }
+
+        .card.gold {
+            border: none;
+        }
+
+        .card.silver {
+            border: none;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, #6b7280, #374151);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(107, 114, 128, 0.4), rgba(55, 65, 81, 0.4));
+            z-index: 1;
+        }
+
+        .card-image > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* STATUS ONLINE - REDUCIDO 10X */
+        .card-status {
+            position: absolute;
+            top: 0.3rem;
+            right: 0.3rem;
+            padding: 0.15rem 0.3rem;
+            border-radius: 9999px;
+            font-size: 0.4rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            z-index: 3;
+        }
+
+        .status-online {
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+        }
+
+        .status-offline {
+            background: rgba(107, 114, 128, 0.9);
+            color: white;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            text-align: center;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Tamaños específicos por categoría */
+        .card.vip .card-title {
+            font-size: 1.25rem; /* VIP: Grande */
+        }
+
+        .card.gold .card-title {
+            font-size: 1rem; /* Gold: Mediano */
+        }
+
+        .card.silver .card-title {
+            font-size: 0.75rem; /* Silver: 3/4 de Gold - más pequeño */
+        }
+
+        /* CATEGORIAS - BOTONES MUY PEQUEÑOS */
+        .card-category {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 9999px;
+            font-size: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .category-vip {
+            background: rgba(251, 191, 36, 0.9);
+            color: white;
+            border-color: #fbbf24;
+        }
+
+        .category-gold {
+            background: rgba(245, 158, 11, 0.9);
+            color: white; 
+            border-color: #f59e0b;
+        }
+
+        .category-silver {
+            background: rgba(156, 163, 175, 0.9);
+            color: white;
+            border-color: #9ca3af;
+        }
+
+        /* Content Layout - SIN SIDEBAR */
+        .content-layout {
+            display: block;
+            margin: 2rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #111111;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid #333333;
+            color: #cccccc;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: #111111;
+            margin: 3% auto;
+            padding: 2.5rem;
+            border-radius: 0;
+            max-width: 480px;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: none;
+            border: 1px solid #333333;
+        }
+
+        .modal-large {
+            max-width: 800px;
+            max-height: 95vh;
+            margin: 1% auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #9ca3af;
+            transition: color 0.15s ease;
+        }
+
+        .close:hover {
+            color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: -0.01em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #333333;
+            border-radius: 0.5rem;
+            background: #222222;
+            color: #ffffff;
+            font-size: 0.875rem;
+            transition: all 0.15s ease;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #6b7280;
+            box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+        }
+
+        /* Perfil completo en modal */
+        .profile-carousel {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            margin-bottom: 2rem;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: none;
+        }
+
+        .carousel-image.active {
+            display: block;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .carousel-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-arrows:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-prev {
+            left: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .carousel-next {
+            right: 1rem;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .profile-info {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .profile-title {
+            flex: 1;
+        }
+
+        .profile-title h2 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .profile-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            background: #222222;
+            padding: 1.5rem;
+            border-radius: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #cccccc;
+            margin-top: 0.25rem;
+        }
+
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .service-tag {
+            background: #333333;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #555555;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20ba5a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(37, 211, 102, 0.4);
+        }
+
+        .stories-section-profile {
+            background: #222222;
+            padding: 1.5rem;
+            border-radius: 0;
+            margin-top: 2rem;
+        }
+
+        .stories-grid {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .story-mini {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 0;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .story-mini:hover {
+            transform: scale(1.05);
+        }
+
+        .story-time {
+            position: absolute;
+            bottom: 0.25rem;
+            right: 0.25rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            color: white;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: rgba(34, 197, 94, 0.95);
+        }
+
+        .notification.error {
+            background: rgba(239, 68, 68, 0.95);
+        }
+
+        .notification.info {
+            background: rgba(59, 130, 246, 0.95);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .contact-section {
+            background: #111111;
+            padding: 2rem;
+            border-radius: 0;
+            margin: 2rem 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .contact-section h2 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .cards-grid.vip-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .cards-grid.gold-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .cards-grid.silver-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+            
+            .hero {
+                font-size: 2rem;
+                min-height: 125px;
+                padding: 1rem 0;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+
+            .hero-content img {
+                height: 120px !important;
+            }
+
+            /* MÓVIL - EXACTAMENTE LO SOLICITADO */
+            .cards-grid.vip-grid {
+                grid-template-columns: repeat(2, 1fr); /* VIP: 4→2 */
+            }
+            
+            .cards-grid.gold-grid {
+                grid-template-columns: repeat(4, 1fr); /* Gold: 8→4 */
+            }
+            
+            .cards-grid.silver-grid {
+                grid-template-columns: repeat(6, 1fr); /* Silver: 12→6 */
+            }
+
+            .hero-carousel-slide {
+                width: 150px;
+                margin: 0 3px;
+                opacity: 0.3;
+            }
+
+            .hero-carousel {
+                animation-duration: 16s;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+
+            .profile-carousel {
+                padding-bottom: 100%;
+            }
+
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .profile-header {
+                flex-direction: column;
+            }
+
+            .profile-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-content {
+                margin: 1% auto;
+                max-height: 98vh;
+                padding: 2rem;
+            }
+
+            .modal-large {
+                max-width: 98vw;
+                max-height: 98vh;
+            }
+
+            .carousel-arrows {
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+
+            .stories-grid {
+                gap: 0.5rem;
+            }
+
+            .story-mini {
+                width: 60px;
+                height: 60px;
+            }
+
+            .activity-item {
+                min-width: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 45px;
+            }
+
+            /* MÓVIL PEQUEÑO - MANTENER LAS MISMAS REGLAS */
+            .cards-grid.vip-grid {
+                grid-template-columns: repeat(2, 1fr); /* VIP: mantener 2 */
+            }
+            
+            .cards-grid.gold-grid {
+                grid-template-columns: repeat(4, 1fr); /* Gold: mantener 4 */
+            }
+            
+            .cards-grid.silver-grid {
+                grid-template-columns: repeat(5, 1fr); /* Silver: mantener 5 */
+            }
+
+            .hero {
+                min-height: 100px;
+                padding: 0.75rem 0;
+            }
+
+            .hero-content {
+                padding: 0.5rem;
+                margin: 0 1rem;
+            }
+
+            .hero-content img {
+                height: 50px !important;
+            }
+
+            .hero-carousel-slide {
+                width: 120px;
+                margin: 0 2px;
+                opacity: 0.2;
+            }
+
+            .hero-carousel {
+                animation-duration: 20s;
+            }
+
+            .profile-carousel {
+                padding-bottom: 100%;
+            }
+
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+                margin: 0.5% auto;
+                max-height: 99vh;
+            }
+
+            .modal-large {
+                max-width: 98vw;
+                max-height: 99vh;
+            }
+
+            .profile-title h2 {
+                font-size: 1.25rem;
+            }
+
+            .whatsapp-btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .activity-item {
+                min-width: 200px;
+            }
+
+            /* Ajustar tamaño de nombres en móvil pequeño por categoría */
+            .card.vip .card-title {
+                font-size: 0.9rem; /* VIP en móvil pequeño */
+            }
+
+            .card.gold .card-title {
+                font-size: 0.8rem; /* Gold en móvil pequeño */
+            }
+
+            .card.silver .card-title {
+                font-size: 0.6rem; /* Silver en móvil pequeño - muy pequeño */
+            }
+
+            .card-content {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo" onclick="showPage('home')">
+                    <img src="https://raw.githubusercontent.com/djwhomusic/safelove-photos/6ab28297ecc3a22928019ef1f15fd43eebd165d4/output-onlinepngtools.png" alt="SafeLove" onerror="tryAlternativeUrls(this);">
+                    <span style="display: none;">SafeLove</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a onclick="showPage('home')">Inicio</a></li>
+                    <li><a onclick="showPage('directory')">Directorio</a></li>
+                    <li><a onclick="showPage('forum')">Foro</a></li>
+                    <li><a onclick="showPage('reviews')">Reseñas</a></li>
+                    <li><a onclick="showPage('contact')">Contacto</a></li>
+                </ul>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span id="welcomeText">Bienvenido, Usuario</span>
+                    <button class="btn btn-small btn-success" onclick="showPage('dashboard')">Mi Panel</button>
+                    <button class="btn btn-small btn-primary" onclick="logout()">Salir</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- HOME PAGE -->
+            <section id="home" class="page-section active">
+                <!-- Stories Section -->
+                <div class="stories-section">
+                    <h3>Historias Recientes</h3>
+                    <div class="stories-container" id="storiesContainer">
+                        <!-- Las historias se cargarán dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="hero">
+                    <!-- Carrusel de fondo automático -->
+                    <div class="hero-carousel" id="heroCarousel">
+                        <!-- Las imágenes se cargarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Overlay para mejorar legibilidad -->
+                    <div class="hero-overlay"></div>
+                    
+                    <!-- Contenido principal -->
+                    <div class="hero-content">
+                        <img src="https://raw.githubusercontent.com/djwhomusic/safelove-photos/e9e461f884796221a367f7ecf89b68f69fdd5c29/output-onlinepngtools%20(2).png" alt="SafeLove" style="height: 192px; width: auto; object-fit: contain;" onerror="tryHeroLogoFallback(this);">
+                    </div>
+                </div>
+
+                <!-- Activity Banner - MOVIDO DEBAJO DEL HERO -->
+                <div class="activity-banner">
+                    <h3>Actividad Reciente</h3>
+                    <div class="activity-carousel" id="activityCarousel">
+                        <!-- Se cargará dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="search-section">
+                    <form class="search-form" onsubmit="searchProfiles(event)">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Buscar...">
+                        <select class="filter-select" id="locationFilter">
+                            <option value="">Todas las zonas</option>
+                            <option value="Las Condes">Las Condes</option>
+                            <option value="Providencia">Providencia</option>
+                            <option value="Vitacura">Vitacura</option>
+                            <option value="Santiago Centro">Santiago Centro</option>
+                            <option value="Ñuñoa">Ñuñoa</option>
+                            <option value="La Reina">La Reina</option>
+                            <option value="Peñalolén">Peñalolén</option>
+                            <option value="Maipú">Maipú</option>
+                        </select>
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">Todas las categorías</option>
+                            <option value="vip">VIP</option>
+                            <option value="gold">Gold</option>
+                            <option value="silver">Silver</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </form>
+                </div>
+
+                <div class="content-layout">
+                    <section>
+                        <h2>Perfiles VIP (33)</h2>
+                        <div class="cards-grid vip-grid" id="vipProfiles">
+                            <!-- Los perfiles VIP se cargarán dinámicamente -->
+                        </div>
+                        
+                        <h2>Perfiles Gold (37)</h2>
+                        <div class="cards-grid gold-grid" id="goldProfiles">
+                            <!-- Los perfiles Gold se cargarán dinámicamente -->
+                        </div>
+                        
+                        <h2>Perfiles Silver (38)</h2>
+                        <div class="cards-grid silver-grid" id="silverProfiles">
+                            <!-- Los perfiles Silver se cargarán dinámicamente -->
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- DIRECTORY PAGE -->
+            <section id="directory" class="page-section">
+                <h2>Directorio VIP (33 modelos)</h2>
+                <div class="cards-grid vip-grid" id="allVipProfiles">
+                    <!-- Los perfiles VIP se cargarán dinámicamente -->
+                </div>
+                
+                <h2>Directorio Gold (37 modelos)</h2>
+                <div class="cards-grid gold-grid" id="allGoldProfiles">
+                    <!-- Los perfiles Gold se cargarán dinámicamente -->
+                </div>
+                
+                <h2>Directorio Silver (38 modelos)</h2>
+                <div class="cards-grid silver-grid" id="allSilverProfiles">
+                    <!-- Los perfiles Silver se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- CONTACT PAGE -->
+            <section id="contact" class="page-section">
+                <div class="contact-section">
+                    <h2>Contacto</h2>
+                    <p>Para más información o soporte, puedes contactarnos:</p>
+                    <div style="margin: 2rem 0;">
+                        <p><strong>Email:</strong> info@safelove.cl</p>
+                        <p><strong>Teléfono:</strong> +56 2 XXXX XXXX</p>
+                        <p><strong>Horario:</strong> Lunes a Viernes, 9:00 - 18:00</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 SafeLove Santiago. Todos los derechos reservados.</p>
+            <p>Sitio para mayores de 18 años. Use con responsabilidad.</p>
+            
+            <!-- Acceso para Modelos -->
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #333333;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #ffffff;">¿Eres modelo?</p>
+                <div class="auth-buttons" id="authButtons" style="justify-content: center;">
+                    <a href="#" class="btn btn-secondary" onclick="openModal('loginModal')">Acceso Modelos</a>
+                    <a href="#" class="btn btn-primary" onclick="openModal('registerModal')">Publícate</a>
+                </div>
+                <div class="user-info" id="userInfoFooter" style="display: none; justify-content: center; flex-direction: column; align-items: center; gap: 1rem;">
+                    <span id="welcomeFooterText">Bienvenida, Modelo</span>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="btn btn-small btn-success" onclick="showPage('dashboard')">Mi Panel</button>
+                        <button class="btn btn-small btn-primary" onclick="logout()">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2 style="color: #ffffff; margin-bottom: 1.5rem; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.01em;">Acceso para Modelos</h2>
+            <p style="color: #cccccc; margin-bottom: 1.5rem; font-size: 0.9rem;">Ingresa a tu panel de control para gestionar tu perfil</p>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar a Mi Panel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2 style="color: #ffffff; margin-bottom: 1.5rem; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.01em;">Publica tu Perfil</h2>
+            <p style="color: #cccccc; margin-bottom: 1.5rem; font-size: 0.9rem;">Únete a SafeLove y conecta con clientes en Santiago</p>
+            <form onsubmit="register(event)">
+                <div class="form-group">
+                    <label>Nombre Artístico:</label>
+                    <input type="text" id="registerUsername" required placeholder="Ej: Isabella">
+                </div>
+                <div class="form-group">
+                    <label>Email de Contacto:</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Contraseña:</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Crear Mi Perfil</button>
+                <p style="color: #cccccc; font-size: 0.8rem; margin-top: 1rem; text-align: center;">
+                    Al registrarte aceptas nuestros términos y condiciones
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Detail Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="closeModal('profileModal')">&times;</span>
+            <div id="profileModalContent">
+                <!-- Se cargará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pool de imágenes usando GitHub únicamente
+        const imageUrls = [
+            'https://avatars.githubusercontent.com/u/1?v=4',
+            'https://avatars.githubusercontent.com/u/2?v=4',
+            'https://avatars.githubusercontent.com/u/3?v=4',
+            'https://avatars.githubusercontent.com/u/4?v=4',
+            'https://avatars.githubusercontent.com/u/5?v=4',
+            'https://avatars.githubusercontent.com/u/6?v=4',
+            'https://avatars.githubusercontent.com/u/7?v=4',
+            'https://avatars.githubusercontent.com/u/8?v=4',
+            'https://avatars.githubusercontent.com/u/9?v=4',
+            'https://avatars.githubusercontent.com/u/10?v=4',
+            'https://avatars.githubusercontent.com/u/11?v=4',
+            'https://avatars.githubusercontent.com/u/12?v=4',
+            'https://avatars.githubusercontent.com/u/13?v=4',
+            'https://avatars.githubusercontent.com/u/14?v=4',
+            'https://avatars.githubusercontent.com/u/15?v=4',
+            'https://avatars.githubusercontent.com/u/16?v=4',
+            'https://avatars.githubusercontent.com/u/17?v=4',
+            'https://avatars.githubusercontent.com/u/18?v=4',
+            'https://avatars.githubusercontent.com/u/19?v=4',
+            'https://avatars.githubusercontent.com/u/20?v=4',
+            'https://avatars.githubusercontent.com/u/21?v=4',
+            'https://avatars.githubusercontent.com/u/22?v=4',
+            'https://avatars.githubusercontent.com/u/23?v=4',
+            'https://avatars.githubusercontent.com/u/24?v=4',
+            'https://avatars.githubusercontent.com/u/25?v=4',
+            'https://avatars.githubusercontent.com/u/26?v=4',
+            'https://avatars.githubusercontent.com/u/27?v=4',
+            'https://avatars.githubusercontent.com/u/28?v=4',
+            'https://avatars.githubusercontent.com/u/29?v=4',
+            'https://avatars.githubusercontent.com/u/30?v=4'
+        ];
+
+        // Función para verificar si una imagen se carga correctamente
+        function testImageLoad(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        }
+
+        // Imágenes adicionales como backup de GitHub
+        const fallbackImages = [
+            'https://avatars.githubusercontent.com/u/100?v=4',
+            'https://avatars.githubusercontent.com/u/101?v=4',
+            'https://avatars.githubusercontent.com/u/102?v=4',
+            'https://avatars.githubusercontent.com/u/103?v=4',
+            'https://avatars.githubusercontent.com/u/104?v=4',
+            'https://avatars.githubusercontent.com/u/105?v=4',
+            'https://avatars.githubusercontent.com/u/106?v=4',
+            'https://avatars.githubusercontent.com/u/107?v=4',
+            'https://avatars.githubusercontent.com/u/108?v=4',
+            'https://avatars.githubusercontent.com/u/109?v=4'
+        ];
+
+        // Función para manejar URLs alternativas del logo en hero
+        function tryHeroLogoFallback(img) {
+            const alternativeUrls = [
+                'https://github.com/djwhomusic/safelove-photos/blob/e9e461f884796221a367f7ecf89b68f69fdd5c29/output-onlinepngtools%20(2).png?raw=true',
+                'https://raw.githubusercontent.com/djwhomusic/safelove-photos/main/output-onlinepngtools%20(2).png',
+                'https://raw.githubusercontent.com/djwhomusic/safelove-photos/e9e461f884796221a367f7ecf89b68f69fdd5c29/output-onlinepngtools%20(2).png',
+                'https://github.com/djwhomusic/safelove-photos/raw/e9e461f884796221a367f7ecf89b68f69fdd5c29/output-onlinepngtools%20(2).png'
+            ];
+            
+            let currentIndex = 0;
+            
+            function tryNext() {
+                if (currentIndex < alternativeUrls.length) {
+                    img.src = alternativeUrls[currentIndex];
+                    currentIndex++;
+                } else {
+                    // Si todas las URLs fallan, ocultar imagen
+                    img.style.display = 'none';
+                }
+            }
+            
+            img.onerror = tryNext;
+            tryNext();
+        }
+
+        // Función para manejar URLs alternativas del logo
+        function tryAlternativeUrls(img) {
+            const alternativeUrls = [
+                'https://github.com/djwhomusic/safelove-photos/blob/6ab28297ecc3a22928019ef1f15fd43eebd165d4/output-onlinepngtools.png?raw=true',
+                'https://raw.githubusercontent.com/djwhomusic/safelove-photos/main/output-onlinepngtools.png',
+                'https://raw.githubusercontent.com/djwhomusic/safelove-photos/6ab28297ecc3a22928019ef1f15fd43eebd165d4/output-onlinepngtools.png',
+                'https://github.com/djwhomusic/safelove-photos/raw/6ab28297ecc3a22928019ef1f15fd43eebd165d4/output-onlinepngtools.png'
+            ];
+            
+            let currentIndex = 0;
+            
+            function tryNext() {
+                if (currentIndex < alternativeUrls.length) {
+                    img.src = alternativeUrls[currentIndex];
+                    currentIndex++;
+                } else {
+                    // Si todas las URLs fallan, mostrar texto
+                    img.style.display = 'none';
+                    img.nextElementSibling.style.display = 'inline';
+                }
+            }
+            
+            img.onerror = tryNext;
+            tryNext();
+        }
+
+        // Nacionalidades latinoamericanas
+        const nationalities = [
+            'Chilena', 'Brasileña', 'Argentina', 'Colombiana', 'Venezolana', 
+            'Peruana', 'Ecuatoriana', 'Uruguaya', 'Paraguaya', 'Boliviana',
+            'Panameña', 'Costarricense', 'Dominicana', 'Cubana', 'Mexicana'
+        ];
+
+        // Colores de pelo
+        const hairColors = [
+            'Negro', 'Castaño', 'Rubio', 'Pelirrojo', 'Castaño claro', 
+            'Rubio oscuro', 'Negro azulado', 'Castaño rojizo'
+        ];
+
+        // Medidas corporales realistas
+        const measurements = [
+            '90-60-90', '85-58-88', '92-62-92', '88-59-89', '86-57-87',
+            '91-61-91', '87-58-88', '89-60-90', '93-63-93', '84-56-86'
+        ];
+
+        // Función para obtener imagen segura
+        function getImageUrl(index) {
+            const totalImages = imageUrls.length;
+            const imageIndex = index % totalImages;
+            return imageUrls[imageIndex];
+        }
+
+        // Función para distribuir imágenes entre los perfiles
+        function getRandomImages(count = 3) {
+            const selected = [];
+            const totalImages = imageUrls.length;
+            
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * totalImages);
+                selected.push(imageUrls[randomIndex]);
+            }
+            
+            return selected;
+        }
+
+        // Función para asegurar que las imágenes sean válidas
+        function ensureImageExists(imageUrl) {
+            if (!imageUrl || imageUrl === '') {
+                return imageUrls[0]; // Usar la primera imagen como fallback
+            }
+            return imageUrl;
+        }
+
+        // Base de datos con información detallada expandida
+        const profiles = [
+            { 
+                id: 1, 
+                name: 'Isabella', 
+                category: 'vip', 
+                location: 'Las Condes', 
+                price: 120000, 
+                isOnline: true, 
+                rating: 4.9, 
+                totalReviews: 23, 
+                whatsapp: '+56912345001', 
+                age: 24, 
+                height: '1.68m',
+                nationality: 'Brasileña',
+                hairColor: 'Negro',
+                measurements: '90-60-90',
+                services: ['Acompañamiento VIP', 'Cenas ejecutivas', 'Eventos sociales'], 
+                description: 'Modelo exclusiva VIP brasileña con experiencia en acompañamiento de alto nivel. Disponible para cenas, eventos y encuentros privados.', 
+                photos: [getImageUrl(0), getImageUrl(1), getImageUrl(2)]
+            },
+            { 
+                id: 2, 
+                name: 'Carolina', 
+                category: 'vip', 
+                location: 'Las Condes', 
+                price: 110000, 
+                isOnline: true, 
+                rating: 4.8, 
+                totalReviews: 18, 
+                whatsapp: '+56912345002', 
+                age: 26, 
+                height: '1.70m',
+                nationality: 'Colombiana',
+                hairColor: 'Castaño',
+                measurements: '92-62-92',
+                services: ['Acompañamiento', 'Eventos empresariales', 'Viajes'], 
+                description: 'Elegante colombiana, sofisticada. Perfecta compañía para eventos empresariales y sociales.', 
+                photos: [getImageUrl(3), getImageUrl(4), getImageUrl(5)]
+            },
+            { 
+                id: 3, 
+                name: 'Antonia', 
+                category: 'vip', 
+                location: 'Las Condes', 
+                price: 95000, 
+                isOnline: false, 
+                rating: 4.7, 
+                totalReviews: 15, 
+                whatsapp: '+56912345003', 
+                age: 22, 
+                height: '1.65m',
+                nationality: 'Chilena',
+                hairColor: 'Rubio',
+                measurements: '88-59-89',
+                services: ['Masajes relajantes', 'Acompañamiento', 'Sesiones fotográficas'], 
+                description: 'Joven chilena y carismática, especializada en crear experiencias únicas y memorables.', 
+                photos: [getImageUrl(6), getImageUrl(7), getImageUrl(8)]
+            },
+            { 
+                id: 4, 
+                name: 'Catalina', 
+                category: 'vip', 
+                location: 'Providencia', 
+                price: 85000, 
+                isOnline: true, 
+                rating: 4.8, 
+                totalReviews: 21, 
+                whatsapp: '+56912345004', 
+                age: 25, 
+                height: '1.67m',
+                nationality: 'Argentina',
+                hairColor: 'Castaño claro',
+                measurements: '86-57-87',
+                services: ['Acompañamiento', 'Terapias de relajación', 'Conversación intelectual'], 
+                description: 'Argentina culta e inteligente, ideal para cenas íntimas y conversaciones profundas.', 
+                photos: [getImageUrl(9), getImageUrl(10), getImageUrl(11)]
+            },
+            { 
+                id: 5, 
+                name: 'Dominique', 
+                category: 'vip', 
+                location: 'Las Condes', 
+                price: 130000, 
+                isOnline: true, 
+                rating: 4.9, 
+                totalReviews: 19, 
+                whatsapp: '+56912345005', 
+                age: 28, 
+                height: '1.72m',
+                nationality: 'Venezolana',
+                hairColor: 'Negro azulado',
+                measurements: '93-63-93',
+                services: ['Acompañamiento premium', 'Eventos internacionales', 'Viajes de lujo'], 
+                description: 'Modelo internacional venezolana con experiencia en eventos de alto nivel y viajes exclusivos.', 
+                photos: [getImageUrl(12), getImageUrl(13), getImageUrl(14)]
+            },
+            { 
+                id: 6, 
+                name: 'Valentina', 
+                category: 'gold', 
+                location: 'Providencia', 
+                price: 60000, 
+                isOnline: false, 
+                rating: 4.5, 
+                totalReviews: 8, 
+                whatsapp: '+56912345006', 
+                age: 22, 
+                height: '1.62m',
+                nationality: 'Peruana',
+                hairColor: 'Castaño rojizo',
+                measurements: '84-56-86',
+                services: ['Acompañamiento casual', 'Cenas románticas', 'Paseos urbanos'], 
+                description: 'Dulce peruana y espontánea. Ideal para citas casuales y momentos relajados en la ciudad.', 
+                photos: [getImageUrl(15), getImageUrl(16), getImageUrl(17)]
+            },
+            { 
+                id: 7, 
+                name: 'Camila', 
+                category: 'gold', 
+                location: 'Providencia', 
+                price: 55000, 
+                isOnline: true, 
+                rating: 4.3, 
+                totalReviews: 9, 
+                whatsapp: '+56912345007', 
+                age: 21, 
+                height: '1.60m',
+                nationality: 'Ecuatoriana',
+                hairColor: 'Rubio oscuro',
+                measurements: '85-58-88',
+                services: ['Compañía joven', 'Aventuras urbanas', 'Conversación amena'], 
+                description: 'Ecuatoriana energética y divertida. Le encanta explorar la ciudad y conocer lugares nuevos.', 
+                photos: [getImageUrl(18), getImageUrl(19), getImageUrl(20)]
+            },
+            { 
+                id: 8, 
+                name: 'Fernanda', 
+                category: 'gold', 
+                location: 'Las Condes', 
+                price: 65000, 
+                isOnline: false, 
+                rating: 4.6, 
+                totalReviews: 11, 
+                whatsapp: '+56912345008', 
+                age: 24, 
+                height: '1.65m',
+                nationality: 'Uruguaya',
+                hairColor: 'Pelirrojo',
+                measurements: '91-61-91',
+                services: ['Masajes relajantes', 'Spa en casa', 'Bienestar integral'], 
+                description: 'Terapeuta uruguaya certificada en técnicas de relajación y bienestar corporal.', 
+                photos: [getImageUrl(21), getImageUrl(22), getImageUrl(23)]
+            },
+            { 
+                id: 9, 
+                name: 'Sofía', 
+                category: 'silver', 
+                location: 'Santiago Centro', 
+                price: 40000, 
+                isOnline: true, 
+                rating: 4.2, 
+                totalReviews: 15, 
+                whatsapp: '+56912345009', 
+                age: 20, 
+                height: '1.58m',
+                nationality: 'Chilena',
+                hairColor: 'Negro',
+                measurements: '87-58-88',
+                services: ['Compañía amigable', 'Paseos por el centro', 'Café y conversación'], 
+                description: 'Estudiante universitaria chilena, amigable y conversadora. Perfecta para momentos relajados.', 
+                photos: [getImageUrl(24), getImageUrl(25), getImageUrl(26)]
+            },
+            { 
+                id: 10, 
+                name: 'Martina', 
+                category: 'silver', 
+                location: 'Ñuñoa', 
+                price: 35000, 
+                isOnline: false, 
+                rating: 4.1, 
+                totalReviews: 5, 
+                whatsapp: '+56912345010', 
+                age: 19, 
+                height: '1.56m',
+                nationality: 'Paraguaya',
+                hairColor: 'Castaño',
+                measurements: '89-60-90',
+                services: ['Acompañamiento básico', 'Películas en casa', 'Tardes tranquilas'], 
+                description: 'Joven paraguaya y dulce, ideal para tardes relajadas viendo películas o conversando.', 
+                photos: [getImageUrl(27), getImageUrl(28), getImageUrl(29)]
+            }
+        ];
+
+        // Expandir a 100 perfiles con variaciones y información detallada
+        const expandedProfiles = [...profiles];
+        
+        // Nombres adicionales para mayor diversidad en 100 perfiles
+        const additionalNames = [
+            'Alejandra', 'Constanza', 'Francisca', 'Javiera', 'Macarena', 
+            'Paulina', 'Rosario', 'Trinidad', 'Victoria', 'Ximena',
+            'Amanda', 'Bárbara', 'Daniela', 'Esperanza', 'Gabriela',
+            'Isidora', 'Josefina', 'Lorena', 'Magdalena', 'Natalia'
+        ];
+        
+        for (let i = 10; i < 108; i++) {
+            let baseProfile, name;
+            
+            if (i < 30) {
+                // Usar perfiles base originales con variaciones
+                baseProfile = profiles[i % 10];
+                name = generateVariantName(baseProfile.name, i);
+            } else {
+                // Crear nuevos perfiles con nombres completamente diferentes
+                baseProfile = profiles[i % 10];
+                const nameIndex = Math.floor((i - 30) / 3.5);
+                name = additionalNames[nameIndex % additionalNames.length];
+                
+                // Agregar variaciones a los nombres adicionales
+                if ((i - 30) % 4 === 1) name += 'ita';
+                else if ((i - 30) % 4 === 2) name = name.slice(0, -1) + 'y';
+                else if ((i - 30) % 4 === 3) name = name.slice(0, -1) + 'i';
+            }
+            
+            const categoryOptions = ['vip', 'gold', 'silver'];
+            const locationOptions = ['Las Condes', 'Providencia', 'Ñuñoa', 'Santiago Centro', 'Vitacura', 'La Reina', 'Peñalolén', 'Maipú'];
+            
+            // Distribuir categorías: 33 VIP, 37 Gold, 38 Silver
+            let category;
+            if (i < 33) category = 'vip';
+            else if (i < 70) category = 'gold'; 
+            else category = 'silver';
+            
+            const newProfile = {
+                ...baseProfile,
+                id: i + 1,
+                name: name,
+                category: category,
+                location: locationOptions[i % locationOptions.length],
+                price: baseProfile.price + Math.floor(Math.random() * 30000) - 15000,
+                rating: Math.max(3.5, Math.min(5.0, baseProfile.rating + (Math.random() - 0.5) * 0.8)),
+                totalReviews: Math.floor(Math.random() * 35) + 3,
+                whatsapp: `+569123450${String(i + 1).padStart(3, '0')}`,
+                age: Math.floor(Math.random() * 10) + 18,
+                height: `1.${Math.floor(Math.random() * 20) + 55}m`,
+                nationality: nationalities[i % nationalities.length],
+                hairColor: hairColors[i % hairColors.length],
+                measurements: measurements[i % measurements.length],
+                isOnline: Math.random() > 0.3,
+                photos: [getImageUrl(i * 3), getImageUrl(i * 3 + 1), getImageUrl(i * 3 + 2)]
+            };
+            expandedProfiles.push(newProfile);
+        }
+
+        // Verificar que todos los perfiles tengan imágenes válidas
+        expandedProfiles.forEach((profile, index) => {
+            if (!profile.photos || profile.photos.length === 0) {
+                profile.photos = [getImageUrl(index * 3), getImageUrl(index * 3 + 1), getImageUrl(index * 3 + 2)];
+                console.log(`Asignando imágenes al perfil ${profile.name}`);
+            }
+        });
+
+        function generateVariantName(baseName, index) {
+            const variants = {
+                'Isabella': ['Isabel', 'Isa', 'Bella', 'Isabelle', 'Izzy', 'Belle', 'Isadora', 'Sabela', 'Isabella', 'Belita'],
+                'Carolina': ['Carol', 'Carla', 'Caroline', 'Caro', 'Lina', 'Carolyn', 'Karolina', 'Karlita', 'Carito', 'Carola'],
+                'Antonia': ['Antonia', 'Toni', 'Antonella', 'Tonia', 'Toña', 'Annie', 'Anto', 'Antonina', 'Tona', 'Antonieta'],
+                'Catalina': ['Cata', 'Catita', 'Cat', 'Catalina', 'Katia', 'Katy', 'Catherine', 'Catarina', 'Lina', 'Catty'],
+                'Dominique': ['Domi', 'Nicole', 'Dominica', 'Niki', 'Nikki', 'Dominga', 'Mika', 'Domenica', 'Domy', 'Nikita'],
+                'Valentina': ['Vale', 'Valeria', 'Tina', 'Valen', 'Valy', 'Valentía', 'Valita', 'Valeska', 'Valente', 'Vala'],
+                'Camila': ['Cami', 'Camille', 'Mila', 'Cam', 'Camelia', 'Milena', 'Cammy', 'Camille', 'Milu', 'Camita'],
+                'Fernanda': ['Fer', 'Nanda', 'Ferny', 'Fernanda', 'Fanny', 'Nana', 'Fernie', 'Fernandita', 'Ferni', 'Nandita'],
+                'Sofía': ['Sofi', 'Sophie', 'Sofia', 'Fía', 'Sophy', 'Sofie', 'Sophía', 'Sof', 'Sofita', 'Sophina'],
+                'Martina': ['Marti', 'Tina', 'Marta', 'Martita', 'Marty', 'Tinita', 'Martí', 'Martinita', 'Tin', 'Maru']
+            };
+            
+            const nameVariants = variants[baseName] || [baseName];
+            return nameVariants[index % nameVariants.length];
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        const users = [
+            { id: 1, username: 'admin', email: 'admin@safelove.cl', password: 'admin123', role: 'admin' }
+        ];
+
+        let currentUser = null;
+
+        // Inicialización
+        window.currentCarouselIndex = 0;
+        window.totalCarouselImages = 0;
+
+        // Funciones de utilidad
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('es-CL', {
+                style: 'currency',
+                currency: 'CLP'
+            }).format(price);
+        }
+
+        function timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            
+            if (diffHours < 1) return 'Hace unos minutos';
+            if (diffHours < 24) return `Hace ${diffHours}h`;
+            return `Hace ${Math.floor(diffHours / 24)} días`;
+        }
+
+        // Cargar historias
+        function loadStories() {
+            const container = document.getElementById('storiesContainer');
+            if (!container) return;
+            
+            const storiesData = [
+                { id: 1, name: 'Isabella', hasStory: true },
+                { id: 2, name: 'Carolina', hasStory: true },
+                { id: 4, name: 'Catalina', hasStory: true },
+                { id: 6, name: 'Valentina', hasStory: true },
+                { id: 8, name: 'Fernanda', hasStory: true },
+                { id: 15, name: 'Camila', hasStory: true },
+                { id: 25, name: 'Sofía', hasStory: true },
+                { id: 35, name: 'Martina', hasStory: true },
+                { id: 45, name: 'Nicole', hasStory: true },
+                { id: 55, name: 'Valeria', hasStory: true }
+            ];
+            
+            container.innerHTML = storiesData.map((story, index) => {
+                const profile = expandedProfiles.find(p => p.id === story.id);
+                let avatarImage = '';
+                
+                if (profile && profile.photos && profile.photos.length > 0 && profile.photos[0]) {
+                    avatarImage = profile.photos[0];
+                } else {
+                    // Usar una imagen basada en el índice de la historia
+                    avatarImage = getImageUrl(index + 10); // Offset para evitar repetir con perfiles
+                    // Asignar imagen al perfil si no tiene
+                    if (profile) {
+                        if (!profile.photos) profile.photos = [];
+                        if (!profile.photos[0]) profile.photos[0] = avatarImage;
+                    }
+                }
+                
+                const displayName = profile ? profile.name : story.name;
+                console.log(`Historia de ${displayName}: ${avatarImage}`);
+                
+                return `
+                    <div class="story-item" onclick="viewStory(${story.id})">
+                        <div class="story-circle has-story">
+                            <div class="story-avatar" style="background-image: url('${avatarImage}'); background-size: cover; background-position: center;">
+                            </div>
+                        </div>
+                        <div class="story-name">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addStory() {
+            showNotification('Función para agregar historias en desarrollo', 'info');
+        }
+
+        function viewStory(profileId) {
+            const profile = expandedProfiles.find(p => p.id === profileId);
+            if (profile) {
+                showNotification(`Viendo historia de ${profile.name}`, 'info');
+            }
+        }
+
+        // NUEVA FUNCIÓN: Cargar banner de actividad reciente
+        function loadActivityBanner() {
+            const container = document.getElementById('activityCarousel');
+            if (!container) return;
+            
+            const activities = [
+                { profileId: 1, text: 'Isabella se unió recientemente', time: '1h' },
+                { profileId: 2, text: 'Carolina subió nuevas fotos', time: '2h' },
+                { profileId: 4, text: 'Catalina recibió 5 estrellas', time: '3h' },
+                { profileId: 6, text: 'Valentina se unió recientemente', time: '4h' },
+                { profileId: 8, text: 'Fernanda subió nuevas fotos', time: '5h' },
+                { profileId: 5, text: 'Dominique se actualizó a VIP', time: '6h' },
+                { profileId: 7, text: 'Camila tiene nuevos servicios', time: '7h' },
+                { profileId: 9, text: 'Sofía se unió recientemente', time: '8h' },
+                { profileId: 15, text: 'Alejandra actualizó su WhatsApp', time: '9h' },
+                { profileId: 25, text: 'Constanza disponible en Las Condes', time: '10h' },
+                { profileId: 35, text: 'Francisca nuevos servicios VIP', time: '11h' },
+                { profileId: 45, text: 'Javiera promoción especial', time: '12h' }
+            ];
+            
+            // Duplicar actividades para carrusel continuo
+            const duplicatedActivities = [...activities, ...activities];
+            
+            container.innerHTML = duplicatedActivities.map(activity => {
+                const profile = expandedProfiles.find(p => p.id === activity.profileId);
+                let avatarImage = '';
+                
+                if (profile && profile.photos && profile.photos.length > 0) {
+                    avatarImage = profile.photos[0];
+                } else {
+                    avatarImage = getImageUrl(activity.profileId || 0);
+                }
+                
+                return `
+                    <div class="activity-item">
+                        <div class="activity-avatar" style="background-image: url('${avatarImage}');"></div>
+                        <div class="activity-text">
+                            <div class="main-text">${activity.text}</div>
+                            <div class="time-text">${activity.time}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Funciones de navegación
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            switch (pageId) {
+                case 'home':
+                    loadStories();
+                    loadActivityBanner(); // NUEVA FUNCIÓN
+                    loadFeaturedProfiles();
+                    // Inicializar carrusel intenso después de que se cargue la página
+                    setTimeout(() => {
+                        initHeroCarousel();
+                        addHeroVisualEffects();
+                        setupHeroCarouselControls();
+                    }, 100);
+                    break;
+                case 'directory':
+                    loadAllProfiles();
+                    break;
+            }
+        }
+
+        // Cargar perfiles separados por categoría
+        function loadFeaturedProfiles() {
+            console.log('Cargando perfiles por categoría...');
+            
+            // Filtrar perfiles por categoría
+            const vipProfiles = expandedProfiles.filter(p => p.category === 'vip');
+            const goldProfiles = expandedProfiles.filter(p => p.category === 'gold');
+            const silverProfiles = expandedProfiles.filter(p => p.category === 'silver');
+            
+            console.log(`VIP: ${vipProfiles.length}, Gold: ${goldProfiles.length}, Silver: ${silverProfiles.length}`);
+            
+            // Cargar VIP
+            loadCategoryProfiles('vipProfiles', vipProfiles);
+            
+            // Cargar Gold
+            loadCategoryProfiles('goldProfiles', goldProfiles);
+            
+            // Cargar Silver
+            loadCategoryProfiles('silverProfiles', silverProfiles);
+        }
+
+        function loadAllProfiles() {
+            console.log('Cargando directorio por categoría...');
+            
+            // Filtrar perfiles por categoría
+            const vipProfiles = expandedProfiles.filter(p => p.category === 'vip');
+            const goldProfiles = expandedProfiles.filter(p => p.category === 'gold');
+            const silverProfiles = expandedProfiles.filter(p => p.category === 'silver');
+            
+            // Cargar en directorio
+            loadCategoryProfiles('allVipProfiles', vipProfiles);
+            loadCategoryProfiles('allGoldProfiles', goldProfiles);
+            loadCategoryProfiles('allSilverProfiles', silverProfiles);
+        }
+
+        function loadCategoryProfiles(containerId, profiles) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = profiles.map((profile, index) => {
+                // Asegurar que el perfil tenga una imagen válida
+                let imageUrl = '';
+                if (profile.photos && profile.photos.length > 0 && profile.photos[0]) {
+                    imageUrl = profile.photos[0];
+                } else {
+                    imageUrl = getImageUrl(profile.id);
+                    // Asignar la imagen al perfil para consistencia
+                    if (!profile.photos) profile.photos = [];
+                    profile.photos[0] = imageUrl;
+                }
+                
+                return `
+                    <div class="card ${profile.category}" onclick="viewProfile(${profile.id})" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;">
+                        <div class="card-status ${profile.isOnline ? 'status-online' : 'status-offline'}">
+                            ${profile.isOnline ? '●' : '●'}
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${profile.name}</h3>
+                            <div class="card-category category-${profile.category}">${profile.category.toUpperCase()}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Ver perfil completo con información detallada
+        function viewProfile(profileId) {
+            const profile = expandedProfiles.find(p => p.id === profileId);
+            if (!profile) return;
+
+            const whatsappMessage = `Hola! ${profile.name}, Te vi en SafeLove y quiero información de tus servicios y disponibilidad.`;
+            const whatsappUrl = `https://wa.me/${profile.whatsapp.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`;
+
+            const modelStories = generateModelStories(profile);
+
+            const content = `
+                <div class="profile-info">
+                    <div class="profile-carousel" id="profileCarousel">
+                        ${profile.photos.map((photo, index) => `
+                            <div class="carousel-image ${index === 0 ? 'active' : ''}" style="background-image: url('${photo}');"></div>
+                        `).join('')}
+                        
+                        <button class="carousel-arrows carousel-prev" onclick="changeCarouselImage(-1)">❮</button>
+                        <button class="carousel-arrows carousel-next" onclick="changeCarouselImage(1)">❯</button>
+                        
+                        <div class="carousel-nav">
+                            ${profile.photos.map((_, index) => `
+                                <div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToCarouselImage(${index})"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="profile-header">
+                        <div class="profile-title">
+                            <h2>${profile.name}</h2>
+                            <div class="profile-status">
+                                <div class="card-status ${profile.isOnline ? 'status-online' : 'status-offline'}">
+                                    ${profile.isOnline ? 'Online ahora' : 'Desconectada'}
+                                </div>
+                                <div class="card-category category-${profile.category}">${profile.category.toUpperCase()}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.age}</div>
+                            <div class="stat-label">Años</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.height}</div>
+                            <div class="stat-label">Altura</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.nationality}</div>
+                            <div class="stat-label">Nacionalidad</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.hairColor}</div>
+                            <div class="stat-label">Cabello</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.measurements}</div>
+                            <div class="stat-label">Medidas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${formatPrice(profile.price)}</div>
+                            <div class="stat-label">Tarifa</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${profile.rating.toFixed(1)}/5</div>
+                            <div class="stat-label">${profile.totalReviews} reseñas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">📍</div>
+                            <div class="stat-label">${profile.location}</div>
+                        </div>
+                    </div>
+
+                    <div style="background: #222222; padding: 1.5rem; border-radius: 12px; border-left: 4px solid ${getCategoryColor(profile.category)};">
+                        <h3 style="margin-bottom: 1rem; color: #ffffff;">Sobre mí</h3>
+                        <p style="color: #cccccc; line-height: 1.7; margin-bottom: 1rem;">${profile.description}</p>
+                    </div>
+
+                    <div style="background: #222222; padding: 1.5rem; border-radius: 12px;">
+                        <h3 style="margin-bottom: 1rem; color: #ffffff;">Servicios disponibles</h3>
+                        <div class="services-list">
+                            ${profile.services.map(service => `
+                                <span class="service-tag">${service}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <a href="${whatsappUrl}" target="_blank" class="whatsapp-btn">
+                        <span style="font-size: 1.5rem;">💬</span>
+                        Contactar por WhatsApp
+                    </a>
+
+                    <div class="stories-section-profile">
+                        <h3 style="margin-bottom: 1rem; color: #ffffff;">Últimas historias de ${profile.name}</h3>
+                        <div class="stories-grid">
+                            ${modelStories.map(story => `
+                                <div class="story-mini" style="background-image: url('${story.image}');" onclick="viewModelStory('${story.id}')">
+                                    <div class="story-time">${story.timeText}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${modelStories.length === 0 ? '<p style="color: #cccccc; font-style: italic;">No hay historias recientes</p>' : ''}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('profileModalContent').innerHTML = content;
+            openModal('profileModal');
+            
+            window.currentCarouselIndex = 0;
+            window.totalCarouselImages = profile.photos.length;
+        }
+
+        // Funciones para el carrusel
+        function changeCarouselImage(direction) {
+            const images = document.querySelectorAll('.carousel-image');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            if (images.length === 0) return;
+            
+            images[window.currentCarouselIndex].classList.remove('active');
+            dots[window.currentCarouselIndex].classList.remove('active');
+            
+            window.currentCarouselIndex += direction;
+            if (window.currentCarouselIndex >= window.totalCarouselImages) {
+                window.currentCarouselIndex = 0;
+            } else if (window.currentCarouselIndex < 0) {
+                window.currentCarouselIndex = window.totalCarouselImages - 1;
+            }
+            
+            images[window.currentCarouselIndex].classList.add('active');
+            dots[window.currentCarouselIndex].classList.add('active');
+        }
+
+        function goToCarouselImage(index) {
+            const images = document.querySelectorAll('.carousel-image');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            if (images.length === 0) return;
+            
+            images[window.currentCarouselIndex].classList.remove('active');
+            dots[window.currentCarouselIndex].classList.remove('active');
+            
+            window.currentCarouselIndex = index;
+            
+            images[window.currentCarouselIndex].classList.add('active');
+            dots[window.currentCarouselIndex].classList.add('active');
+        }
+
+        function getCategoryColor(category) {
+            switch (category) {
+                case 'vip': return '#f59e0b';
+                case 'gold': return '#d97706';
+                case 'silver': return '#9ca3af';
+                default: return '#6b7280';
+            }
+        }
+
+        function generateModelStories(profile) {
+            const stories = [];
+            const storyCount = Math.floor(Math.random() * 4) + 2;
+            
+            for (let i = 0; i < storyCount; i++) {
+                const hoursAgo = Math.floor(Math.random() * 24) + 1;
+                let storyImage = '';
+                
+                // Usar las fotos del perfil o imágenes aleatorias
+                if (profile.photos && profile.photos.length > 0) {
+                    const photoIndex = Math.floor(Math.random() * profile.photos.length);
+                    storyImage = profile.photos[photoIndex];
+                } else {
+                    // Usar imagen aleatoria del pool disponible
+                    const randomIndex = Math.floor(Math.random() * imageUrls.length);
+                    storyImage = getImageUrl(randomIndex);
+                }
+                
+                stories.push({
+                    id: `story_${profile.id}_${i}`,
+                    image: storyImage,
+                    timeText: hoursAgo < 24 ? `${hoursAgo}h` : '1d'
+                });
+            }
+            
+            return stories;
+        }
+
+        function viewModelStory(storyId) {
+            showNotification('Viendo historia...', 'info');
+        }
+
+        // Variables para el carrusel de fondo del hero
+        let heroCarouselInterval = null;
+
+        // Inicializar carrusel automático del hero
+        function initHeroCarousel() {
+            const container = document.getElementById('heroCarousel');
+            if (!container) return;
+
+            console.log('Inicializando carrusel hero con', imageUrls.length, 'imágenes de GitHub');
+
+            // Crear muchas copias de las imágenes para bucle continuo fluido
+            const multipleImages = [
+                ...imageUrls, ...imageUrls, ...imageUrls, 
+                ...imageUrls, ...imageUrls, ...imageUrls
+            ];
+            
+            // Crear slides con elementos img reales para mejor control responsive
+            container.innerHTML = multipleImages.map((imageUrl, index) => `
+                <div class="hero-carousel-slide" data-slide="${index}">
+                    <img src="${imageUrl}" alt="Modelo ${(index % imageUrls.length) + 1}" loading="lazy" />
+                </div>
+            `).join('');
+
+            console.log('🎠 Carrusel iniciado:', multipleImages.length, 'imágenes de GitHub avatars');
+        }
+
+        // Función para crear efectos visuales adicionales
+        function addHeroVisualEffects() {
+            const heroElement = document.querySelector('.hero');
+            if (!heroElement) return;
+
+            // Efecto de pulso sutil removido ya que no hay recuadro
+            console.log('🎨 Efectos visuales del hero configurados - Sin recuadro de texto');
+        }
+
+        // Controles opcionales del carrusel (pausa al hover)
+        function setupHeroCarouselControls() {
+            const heroElement = document.querySelector('.hero');
+            const carousel = document.querySelector('.hero-carousel');
+            
+            if (!heroElement || !carousel) return;
+
+            // Pausar animación al hacer hover
+            heroElement.addEventListener('mouseenter', () => {
+                carousel.style.animationPlayState = 'paused';
+                console.log('🎠 Carrusel pausado');
+            });
+
+            // Reanudar animación al quitar hover
+            heroElement.addEventListener('mouseleave', () => {
+                carousel.style.animationPlayState = 'running';
+                console.log('🎠 Carrusel reanudado');
+            });
+        }
+
+        // Funciones de autenticación
+        function updateAuthUI() {
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const userInfoFooter = document.getElementById('userInfoFooter');
+            const welcomeText = document.getElementById('welcomeText');
+            const welcomeFooterText = document.getElementById('welcomeFooterText');
+
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userInfoFooter.style.display = 'flex';
+                welcomeText.textContent = `Bienvenida, ${currentUser.username}`;
+                welcomeFooterText.textContent = `Bienvenida, ${currentUser.username}`;
+            } else {
+                authButtons.style.display = 'flex';
+                userInfo.style.display = 'none';
+                userInfoFooter.style.display = 'none';
+            }
+        }
+
+        function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                updateAuthUI();
+                closeModal('loginModal');
+                showNotification('¡Bienvenida! Has accedido a tu panel de modelo', 'success');
+                
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                showNotification('Credenciales incorrectas', 'error');
+            }
+        }
+
+        function register(event) {
+            event.preventDefault();
+            showNotification('Para publicar tu perfil, contáctanos por WhatsApp o email', 'info');
+        }
+
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+            showNotification('Has cerrado sesión de tu panel de modelo', 'info');
+            showPage('home');
+        }
+
+        function searchProfiles(event) {
+            event.preventDefault();
+            showNotification('Función de búsqueda en desarrollo', 'info');
+        }
+
+        // Funciones de modales
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Event listeners
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById('profileModal').style.display === 'block') {
+                if (event.key === 'ArrowLeft') {
+                    changeCarouselImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeCarouselImage(1);
+                } else if (event.key === 'Escape') {
+                    closeModal('profileModal');
+                }
+            }
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('SafeLove iniciando...');
+            console.log('Imágenes de GitHub disponibles:', imageUrls.length);
+            console.log('Imágenes de respaldo disponibles:', fallbackImages.length);
+            console.log('Total de imágenes disponibles:', imageUrls.length + fallbackImages.length);
+            
+            // Verificar primera imagen
+            testImageLoad(imageUrls[0]).then(loaded => {
+                console.log('Imagen test (primera GitHub):', loaded ? 'CARGA OK ✓' : 'ERROR ✗');
+            });
+            
+            updateAuthUI();
+            loadStories();
+            showPage('home');
+            
+            console.log('🎯 PERFILES EXPANDIDOS:', expandedProfiles.length, 'perfiles únicos');
+            console.log('📊 Distribución: VIP (33) | Gold (37) | Silver (38) = 108 total');
+            console.log('🌍 Zonas: 8 comunas de Santiago cubiertas');
+            console.log('🚀 CARRUSEL ULTRA RÁPIDO - 5x velocidad (12s por ciclo)');
+            console.log('📐 Banner compacto - Altura reducida 50%');
+            console.log('📱 Imágenes ADAPTATIVAS - Se ven completas en todos los dispositivos');
+            console.log('✅ Desktop: 200px | Tablet: 150px | Móvil: 120px');
+            console.log('🎨 TEMA OSCURO - Fondo negro con texto blanco');
+            console.log('📊 GRIDS RESPONSIVE ESPECÍFICOS:');
+            console.log('   📱 VIP: 4 columnas → 2 móvil');
+            console.log('   📱 Gold: 8 columnas → 4 móvil');
+            console.log('   📱 Silver: 10 columnas → 5 móvil');
+            console.log('🎯 BANNER ACTIVIDAD - Carrusel dinámico sin emojis');
+            console.log('📋 PERFILES DETALLADOS - Nacionalidad, medidas, pelo, edad');
+            console.log('🖼️ SISTEMA DE IMÁGENES OPTIMIZADO - GitHub avatars únicamente');
+            console.log('🎨 DISEÑO LIMPIO - Sin bordes en secciones y perfiles');
+            console.log('📝 NOMBRES ESCALADOS - VIP grandes, Gold medianos, Silver muy pequeños');
+            console.log('⚖️ SILVER OPTIMIZADO - 10 columnas desktop, nombres 3/4 de Gold');
+            console.log('🏷️ LOGO GRANDE - Header con logo SafeLove más visible (60px desktop)');
+            console.log('⚪ HEADER BLANCO - Fondo completamente blanco sin transparencia');
+            console.log('🎨 HERO ULTRA COMPACTO - 1/2 del tamaño (68px desktop), logo proporcional');
+            console.log('📱 MODAL OPTIMIZADO - Tamaño aumentado para mejor visualización');
+            console.log('✅ Inicialización completa - 108 PERFILES ACTIVOS POR CATEGORÍA');
+        });
+    </script>
+</body>
+</html>
